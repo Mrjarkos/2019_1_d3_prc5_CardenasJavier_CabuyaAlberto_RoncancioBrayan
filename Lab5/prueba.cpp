@@ -55,12 +55,15 @@ int main(int argc, char *argv[])
 	}
 	
     pthread_create(&ingreso, NULL, Ingreso_Clientes, NULL);
-	printf("exito\n");
+	
     while(1){
 		sem_getvalue(cajero, &freecash);
-		printf("exito\n");
+		
 		printf("\n[A] Atender Clientes\n");
-    	printf("[A] Cajeros Libres = %i\n", freecash);
+    	//printf("[A] Cajeros Libres = %i\n", freecash);
+  		//printf("[A] Asientos Disponibles = %i\n", BUFFER_SIZE-clientes_banco);
+    	//printf("[A] In = %i\n", in);
+  		//printf("[A] Out = %i\n", out);
 
 		if(in == out){
 			printf("[A] Cajeros Libres, Esperando a que un cliente llegue...\n");
@@ -73,13 +76,19 @@ int main(int argc, char *argv[])
 			sem_getvalue(cajero, &freecash);				
 			}
 		}
+		//printf("\n[A] Estado de los cajeros\n");
+		//for (int i = 0; i < NCajeros; ++i)
+		//{
+		//	printf("[A] Cajero %i = %d\n", i, hilo_estado[i]);
+		//}
 
 		for (int i = 0; i < NCajeros; ++i)
 		{
-			if(hilo_estado[i]){
+			if(!hilo_estado[i]){
+				printf("[A] Cliente atendiendose en %i\n", i);
 				hilo_estado[i]= true;
 				data[i].id = i;
-				data[i].status = hilo_estado[i];
+				data[i].status = &hilo_estado[i];
 				data[i].pid_client = buffer_clientes[out].pid_client;
 				strcpy(data[i].name_client, buffer_clientes[out].name_client);
 				strcpy(data[i].id_client, buffer_clientes[out].id_client);
@@ -88,6 +97,7 @@ int main(int argc, char *argv[])
 			break;	
 			}
 		}	
+		sleep(1);
 	}
     return 0;
 }
@@ -105,9 +115,13 @@ void *Ingreso_Clientes(void *a){
 	while(1){
 
   		printf("\n[I] Ingreso de Clientes \n");
-  		printf("[I] Asientos Disponibles = %i\n", BUFFER_SIZE-clientes_banco);
+    	//printf("[I] Cajeros Libres = %i\n", freecash);
+  		//printf("[I] Asientos Disponibles = %i\n", BUFFER_SIZE-clientes_banco);
+  		//printf("[I] out = %i\n", out);
+  		//printf("[I] in = %i\n", in);
     	ptr = mmap(0, size, PROT_READ, MAP_SHARED, shm_fd, 0);
 
+		printf("[I] Esperando a que un cliente llegue...\n");    	
 			do{
 				memoria = (mem*)ptr;
 			}while(memoria->subscription_flag==(unsigned char)0);	
@@ -124,7 +138,7 @@ void *Ingreso_Clientes(void *a){
 		strcpy(buffer_clientes[in].id_client, memoria->id_client);
 		buffer_clientes[in].pid_client = memoria->my_pid;
 		//printf("id = %s\n", buffer_clientes[in].id_client);
-		sleep(5); //Para hacer mas evidente la cola al ingresar
+		sleep(1); //Para hacer mas evidente la cola al ingresar
 		
 		pthread_mutex_lock(&mutex);
 		in= (in+1)%BUFFER_SIZE;
@@ -140,17 +154,32 @@ void *Ingreso_Clientes(void *a){
 }
 
 void *Atender_Clientes(void *a){
+		char statFileName[128];
+		volatile char state;
+		FILE *fd;
 		pthread_mutex_lock(&mutex);
 		arg_thread *data = (arg_thread*)a;
-		printf("[%i] Atendiendo a:\n", data->id);
-		printf("[%i] Nombre = %s\n", data->id, data->name_client);
-		printf("[%i] id = %s\n", data->id, data->id_client);
 		out = (out + 1) % BUFFER_SIZE;
 		clientes_banco--;
+		printf("\n[%i] Atendiendo a:\n", data->id);
+		printf("[%i] Nombre = %s\n", data->id, data->name_client);
+		printf("[%i] id = %s\n", data->id, data->id_client);
+		//printf("[A] In = %i\n", in);
+  		//printf("[A] Out = %i\n", out);
 		pthread_mutex_unlock(&mutex);
-		
+
+	 	sprintf(statFileName, "/proc/%d/stat", data->pid_client);
+		printf("[%i] Esperando a que el cliente termine....\n", data->id);
+	 	do{
+			//pthread_mutex_lock(&mutex_archivo);
+   			fd = fopen(statFileName, "r");
+   			if (fd != NULL){
+    			fclose(fd);
+   			}
+   			//pthread_mutex_unlock(&mutex_archivo);
+   		}while(fd!=NULL);
+
 		printf("[%i] Cliente Atendido\n", data->id);
-		printf("Pid del cliente = %d\n", data->pid_client);
-		data->status = false;
+		*(data->status) = false;
 		pthread_exit(a);
 }

@@ -33,7 +33,7 @@ typedef struct{
 
 typedef struct {
     int id;
-    bool status;
+    bool* status;
     pid_t pid_client;
    	char name_client[81];
 	char id_client[81];
@@ -51,6 +51,7 @@ const char *name_semMem = "/smp_MemoriaCompartida";
 const char *name_semCajero = "/smp_Cajero";
 const char *mem_name="SHMEM_BANK";
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t mutex_archivo = PTHREAD_MUTEX_INITIALIZER;
 
 void *Ingreso_Clientes(void * a);
 void *Atender_Clientes(void *a);
