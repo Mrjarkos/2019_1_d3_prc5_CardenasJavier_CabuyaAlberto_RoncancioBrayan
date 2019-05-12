@@ -28,13 +28,23 @@ typedef struct{
 typedef struct{
 	char name_client[81];
 	char id_client[81];
+	pid_t pid_client;
 }client;
+
+typedef struct {
+    int id;
+    bool status;
+    pid_t pid_client;
+   	char name_client[81];
+	char id_client[81];
+} arg_thread;
 
 sem_t* sharedmem;
 sem_t* cajero; 
 int freecash, NCajeros, shm_fd, size;
 mem* memoria;
 void* ptr;
+bool* hilo_estado; //false = disponible
 volatile int in, out, clientes_banco;
 client* buffer_clientes;
 const char *name_semMem = "/smp_MemoriaCompartida";

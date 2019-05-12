@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     strcpy(memoria->id_client, id_client);
     memoria->id_client[80]='\0';
     memoria->subscription_flag = (unsigned char)1;
-
+    memoria->my_pid = my_pid;
     printf("Memoria compartida escrita\n");
     ptr = mmap(0, size, PROT_READ, MAP_SHARED, shm_fd, 0);
     memoria = (mem*)ptr;
