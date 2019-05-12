@@ -27,15 +27,19 @@ int main(int argc, char *argv[])
         printf("Estructura: ./cliente name id\n");
         return 0;
       }
+    printf("Datos del cliente:\n");
     printf("Pid = %d\n", my_pid);
-    printf("Bienvenido al banco\n");
     printf("Nombre: %s \nId: %s\n", name_client, id_client);
 
     sharedmem = sem_open(name_semMem, 0);
-    printf("Esperando por acceder al semaforo\n");
+    printf("\nEsperando por entrar al banco\n");
     
+    if(sharedmem==SEM_FAILED){
+        printf("Banco cerrado\n");
+        return 1;
+    }
+
     sem_wait(sharedmem);
-    printf("Semaforo Obtenido\n");
 
     shm_fd = shm_open(mem_name, O_RDWR, 0666);
     	if (shm_fd==-1){
@@ -43,7 +47,9 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
-    printf("Accediendo a memoria compartida\n");
+    printf("\nBienvenido al banco Kranks Bank\n");
+    printf("\nEntrando al banco\n");
+    printf("Solicitando Asignacion de Turno\n");
     ptr = mmap(0, size, PROT_WRITE , MAP_SHARED, shm_fd, 0);
     memoria = (mem*)ptr;
     strcpy(memoria->name_client, name_client);
@@ -52,23 +58,24 @@ int main(int argc, char *argv[])
     memoria->id_client[80]='\0';
     memoria->subscription_flag = (unsigned char)1;
     memoria->my_pid = my_pid;
-    printf("Memoria compartida escrita\n");
+    //printf("Memoria compartida escrita\n");
     ptr = mmap(0, size, PROT_READ, MAP_SHARED, shm_fd, 0);
     memoria = (mem*)ptr;
-    printf("ESperando Asignacion de Turno\n");
+    printf("Esperando Asignacion de Turno\n");
     while(memoria->subscription_flag == (unsigned char)1);
   	sem_post(sharedmem);
    
 
     cajero = sem_open(name_semCajero, 0);
-    printf("Esperando Turno\n");
+    printf("\nTurno asignado\nEsperando Turno\n");
     sem_wait(cajero);
     printf("Turno Obtenido\n");
+    printf("\nRealizando transacciones\n");
     sleep(rand()%15+5);
     sem_post(cajero);
 
-
-    printf("Listo\n");
+    printf("\nCliente Feliz\n");
+    printf("Cliente se fue\n");
     return 0;
 }
 
