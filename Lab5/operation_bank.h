@@ -48,6 +48,17 @@ public:
         return 0;
     }
 
+    static void* Atend_Client(void* object){
+        reinterpret_cast<Operation_Bank*>(object)->Asignar_Turno();
+        return 0;
+    }
+
+    static void* Atender_Al_Cliente(void* object){
+        reinterpret_cast<Operation_Bank*>(object)->Atender_Clientes();
+        return 0;
+    }
+
+    
     int freecash;
     bool* hilo_estado; //false = disponible
     volatile int in, out, clientes_banco;
@@ -58,6 +69,8 @@ public:
     ~Operation_Bank();
    bool Crear_Memoria_Compartida();
    void R_Mem();
+   void A_Cli();
+
 
 
 private:
@@ -65,16 +78,23 @@ private:
     sem_t* sharedmem;
     sem_t* cajero;
     int shm_fd, size;
-    int N_Cajeros;
+    int N_Cajeros, hilo;
     mem* memoria;
     void* ptr;
     const char *name_semMem = "/smp_MemoriaCompartida";
     const char *name_semCajero = "/smp_Cajero";
     const char *mem_name="SHMEM_BANK";
     pthread_t atender, ingreso;
+    //pthread_t *Cajeros_h;
+   // pthread_attr_t *attr;
+    //arg_thread data[10];
+    arg_thread data[10];
+
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
     void Ingreso_Clientes();
+    void Asignar_Turno();
+    void* Atender_Clientes();
    // static void* Leer_Memoria(void* object);
 };
 

@@ -6,6 +6,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QMessageBox>
+#include <signal.h>
 #include "operation_bank.h"
 
 
@@ -48,6 +49,7 @@ private:
     QLabel* label_cajeros_ocupados;
     Operation_Bank* Bank;
     ThreadDatos* Datos;
+    void sigint(int a);
 
 };
 #endif // BANCO_GUI_H

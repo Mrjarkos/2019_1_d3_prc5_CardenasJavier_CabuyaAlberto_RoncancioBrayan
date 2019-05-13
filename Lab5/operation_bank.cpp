@@ -25,15 +25,17 @@ Operation_Bank::Operation_Bank(int N_Cajeros){
     clientes_banco=0;
     freecash=N_Cajeros;
     size = sizeof(mem);
-
+    hilo = 0;
     //pthread_create(&ingreso, NULL, Ingreso_Clientes, NULL);
     sharedmem = sem_open(name_semMem, O_CREAT|O_EXCL, 0644, 1);
     cajero = sem_open(name_semCajero, O_CREAT|O_EXCL, 0644, N_Cajeros);
 
     hilo_estado = new bool[N_Cajeros];
 
-    for (int i = 0; i < N_Cajeros; ++i) {hilo_estado[i] = false;}
-
+    for (int i = 0; i < N_Cajeros; ++i)
+    {
+        hilo_estado[i] = false;
+    }
     //pthread_create(&ingreso, NULL, Ingreso_Clientes, NULL);
 }
 
@@ -51,7 +53,11 @@ bool Operation_Bank::Crear_Memoria_Compartida(){
 }
 
 void Operation_Bank::R_Mem(){
-    pthread_create(& ingreso, NULL, &Operation_Bank::Leer_Memoria, this);
+    pthread_create(&ingreso, NULL, &Operation_Bank::Leer_Memoria, this);
+}
+
+void Operation_Bank::A_Cli(){
+    pthread_create(&atender, NULL, &Operation_Bank::Atend_Client, this);
 }
 
 void Operation_Bank::Ingreso_Clientes(){
@@ -92,5 +98,68 @@ void Operation_Bank::Ingreso_Clientes(){
 
 }
 
+void Operation_Bank::Asignar_Turno(){
+        pthread_t Cajeros_h[N_Cajeros];
+        pthread_attr_t attr[N_Cajeros];
+        data;
+
+    while(1){
+          sem_getvalue(cajero, &freecash);
+
+          if(in == out){
+              while(in == out); //Cajeros Libres, Esperando a que un cliente llegue...
+          }
+
+          if(freecash==0){
+              while(freecash==0){ //Cajero lleno, Esperando a que un cliente termine...\n");
+              sem_getvalue(cajero, &freecash);
+              }
+          }
+          for (int i = 0; i < N_Cajeros; ++i)
+          {
+              if(!hilo_estado[i]){
+                  hilo_estado[i]= true;
+                  hilo = i;
+                  data[i].id = i;
+                  data[i].status = &hilo_estado[i];
+                  data[i].pid_client = buffer_clientes[out].pid_client;
+                  strcpy(data[i].name_client, buffer_clientes[out].name_client);
+                  strcpy(data[i].id_client, buffer_clientes[out].id_client);
+                  pthread_attr_init(&attr[i]);
+                  pthread_create(&Cajeros_h[i], &attr[i], Atender_Al_Cliente, this);
+              break;
+              }
+          }
+          sleep(1);
+      }
+}
+
+void* Operation_Bank::Atender_Clientes(){
+
+        pthread_mutex_lock(&mutex);
+        void *a = &data[hilo];
+        char statFileName[128];
+        volatile char state;
+        FILE *fd;
+        arg_thread *mydata = (arg_thread*)a;
+        out = (out + 1) % BUFFER_SIZE;
+        clientes_banco--;
+        pthread_mutex_unlock(&mutex);
+
+        sprintf(statFileName, "/proc/%d/stat", mydata->pid_client);
+        printf("[%i] Esperando a que el cliente termine....\n", mydata->id);
+        do{
+            //pthread_mutex_lock(&mutex_archivo);
+            fd = fopen(statFileName, "r");
+            if (fd != NULL){
+                fclose(fd);
+            }
+            //pthread_mutex_unlock(&mutex_archivo);
+        }while(fd!=NULL);
+
+        //printf("[%i] Cliente Atendido\n", mydata->id);
+        *(mydata->status) = false;
+        pthread_exit(a);
+}
 
 

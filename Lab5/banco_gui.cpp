@@ -3,12 +3,12 @@
 #include "operation_bank.h"
 #include "threaddatos.h"
 
-
 banco_gui::banco_gui(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::banco_gui)
 {
     ui->setupUi(this);
+    //signal(SIGINT,sigint);
     N_Cajeros = 10;
     Bank = new Operation_Bank(N_Cajeros);
     if(Bank->Crear_Memoria_Compartida()){
@@ -24,6 +24,7 @@ banco_gui::banco_gui(QWidget *parent) :
         this->Actualizar_Datos();
     });
     Bank->R_Mem();
+    Bank->A_Cli();
 
 }
 
@@ -32,6 +33,10 @@ banco_gui::~banco_gui()
     delete Bank;
     delete ui;
 }
+
+void banco_gui::sigint(int a){
+        delete this;
+    }
 
 void banco_gui::configurar_interfaz(int N_Cajeros){
     int Col2=0;
