@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I../Lab5 -I. -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/qmake
 DEL_FILE      = rm -f
@@ -38,7 +38,7 @@ DISTNAME      = Lab51.0.0
 DISTDIR = /home/mrjarkos/Documentos/Digitales3/Laboratorios/2019_1_d3_prc5_CardenasJavier_CabuyaAlberto_RoncancioBrayan/build-Lab5-banco_gui-Debug/.tmp/Lab51.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lrt -w -L/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -50,13 +50,19 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../Lab5/main.cpp \
-		../Lab5/banco_gui.cpp \
-		../Lab5/cliente.cpp moc_banco_gui.cpp
-OBJECTS       = main.o \
-		banco_gui.o \
-		cliente.o \
-		moc_banco_gui.o
+SOURCES       = ../Lab5/banco_gui.cpp \
+		../Lab5/main.cpp \
+		../Lab5/operation_bank.cpp \
+		../Lab5/threaddatos.cpp qrc_resources.cpp \
+		moc_banco_gui.cpp \
+		moc_threaddatos.cpp
+OBJECTS       = banco_gui.o \
+		main.o \
+		operation_bank.o \
+		threaddatos.o \
+		qrc_resources.o \
+		moc_banco_gui.o \
+		moc_threaddatos.o
 DIST          = /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/common/unix.conf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/common/linux.conf \
@@ -216,6 +222,7 @@ DIST          = /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_p
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/qt_config.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_post.prf \
+		../Lab5/.qmake.stash \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/toolchain.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/default_pre.prf \
@@ -235,9 +242,12 @@ DIST          = /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_p
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/exceptions.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/yacc.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/lex.prf \
-		../Lab5/Lab5.pro ../Lab5/banco_gui.h ../Lab5/main.cpp \
-		../Lab5/banco_gui.cpp \
-		../Lab5/cliente.cpp
+		../Lab5/Lab5.pro ../Lab5/banco_gui.h \
+		../Lab5/operation_bank.h \
+		../Lab5/threaddatos.h ../Lab5/banco_gui.cpp \
+		../Lab5/main.cpp \
+		../Lab5/operation_bank.cpp \
+		../Lab5/threaddatos.cpp
 QMAKE_TARGET  = Lab5
 DESTDIR       = 
 TARGET        = Lab5
@@ -408,6 +418,7 @@ Makefile: ../Lab5/Lab5.pro /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linu
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/qt_config.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/toolchain.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/default_pre.prf \
@@ -428,6 +439,7 @@ Makefile: ../Lab5/Lab5.pro /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linu
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/yacc.prf \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/lex.prf \
 		../Lab5/Lab5.pro \
+		../Lab5/resources.qrc \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib/libQt5Widgets.prl \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib/libQt5Gui.prl \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib/libQt5Core.prl
@@ -591,6 +603,7 @@ Makefile: ../Lab5/Lab5.pro /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linu
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/qt_config.prf:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/toolchain.prf:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/default_pre.prf:
@@ -611,6 +624,7 @@ Makefile: ../Lab5/Lab5.pro /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linu
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/yacc.prf:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/lex.prf:
 ../Lab5/Lab5.pro:
+../Lab5/resources.qrc:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib/libQt5Widgets.prl:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib/libQt5Gui.prl:
 /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/lib/libQt5Core.prl:
@@ -628,9 +642,10 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../Lab5/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Lab5/banco_gui.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Lab5/main.cpp ../Lab5/banco_gui.cpp ../Lab5/cliente.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Lab5/banco_gui.h ../Lab5/operation_bank.h ../Lab5/threaddatos.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Lab5/banco_gui.cpp ../Lab5/main.cpp ../Lab5/operation_bank.cpp ../Lab5/threaddatos.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Lab5/banco_gui.ui $(DISTDIR)/
 
 
@@ -655,17 +670,26 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resources.cpp
+qrc_resources.cpp: ../Lab5/resources.qrc \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/rcc \
+		../Lab5/Client_Logo.png \
+		../Lab5/Cajero.jpg \
+		../Lab5/Bank_Logo.png \
+		../Lab5/Kranks-Bank.png
+	/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/rcc -name resources ../Lab5/resources.qrc -o qrc_resources.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
-	g++ -pipe -g -Wall -W -dM -E -o moc_predefs.h /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
+	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_banco_gui.cpp
+compiler_moc_header_make_all: moc_banco_gui.cpp moc_threaddatos.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_banco_gui.cpp
+	-$(DEL_FILE) moc_banco_gui.cpp moc_threaddatos.cpp
 moc_banco_gui.cpp: /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -769,35 +793,233 @@ moc_banco_gui.cpp: /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QM
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPixmap \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCore \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcollator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qendian.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qexception.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QStringList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qisenum.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocess.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qqueue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresource.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsettings.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstack.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QScopedPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthread.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/quuid.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGui \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGuiDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrawfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessible.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessiblebridge.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbackingstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QEvent \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QMargins \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QRect \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbitmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qclipboard.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdesktopservices.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdrag.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericpluginfactory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengineplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimageiohandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagereader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagewriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix4x4.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector3d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector4d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qquaternion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmovie.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qoffscreensurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qt_windows.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengles2ext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglcontext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QSurfaceFormat \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengldebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglextrafunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltexture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltextureblitter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix3x3 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix4x4 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltimerquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDeviceWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevicewindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDevice \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QOpenGLContext \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QImage \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagedpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagelayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagesize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpdfwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpicture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpictureformatplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmapcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrasterwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qscreen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSize \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSizeF \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QTransform \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsessionmanager.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstatictext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstylehints.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsyntaxhighlighter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentfragment.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtexttable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
+		../Lab5/operation_bank.h \
 		../Lab5/banco_gui.h \
 		moc_predefs.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/moc
 	/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/mrjarkos/Documentos/Digitales3/Laboratorios/2019_1_d3_prc5_CardenasJavier_CabuyaAlberto_RoncancioBrayan/Lab5 -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Lab5/banco_gui.h -o moc_banco_gui.cpp
 
-compiler_moc_source_make_all:
-compiler_moc_source_clean:
-compiler_uic_make_all: ui_banco_gui.h
-compiler_uic_clean:
-	-$(DEL_FILE) ui_banco_gui.h
-ui_banco_gui.h: ../Lab5/banco_gui.ui \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/uic
-	/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/uic ../Lab5/banco_gui.ui -o ui_banco_gui.h
-
-compiler_yacc_decl_make_all:
-compiler_yacc_decl_clean:
-compiler_yacc_impl_make_all:
-compiler_yacc_impl_clean:
-compiler_lex_make_all:
-compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
-
-####### Compile
-
-main.o: ../Lab5/main.cpp ../Lab5/banco_gui.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+moc_threaddatos.cpp: /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
@@ -819,15 +1041,7 @@ main.o: ../Lab5/main.cpp ../Lab5/banco_gui.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
@@ -849,6 +1063,16 @@ main.o: ../Lab5/main.cpp ../Lab5/banco_gui.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../Lab5/banco_gui.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
@@ -897,14 +1121,246 @@ main.o: ../Lab5/main.cpp ../Lab5/banco_gui.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPixmap \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCore \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcollator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qendian.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qexception.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QStringList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qisenum.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocess.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qqueue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresource.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsettings.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstack.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QScopedPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthread.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/quuid.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGui \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGuiDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrawfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessible.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessiblebridge.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbackingstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QEvent \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QMargins \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QRect \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbitmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qclipboard.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdesktopservices.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdrag.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericpluginfactory.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Lab5/main.cpp
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengineplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimageiohandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagereader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagewriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix4x4.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector3d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector4d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qquaternion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmovie.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qoffscreensurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qt_windows.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengles2ext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglcontext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QSurfaceFormat \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengldebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglextrafunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltexture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltextureblitter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix3x3 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix4x4 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltimerquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDeviceWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevicewindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDevice \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QOpenGLContext \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QImage \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagedpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagelayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagesize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpdfwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpicture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpictureformatplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmapcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrasterwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qscreen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSize \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSizeF \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QTransform \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsessionmanager.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstatictext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstylehints.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsyntaxhighlighter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentfragment.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtexttable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
+		../Lab5/operation_bank.h \
+		../Lab5/threaddatos.h \
+		moc_predefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/moc
+	/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/mrjarkos/Documentos/Digitales3/Laboratorios/2019_1_d3_prc5_CardenasJavier_CabuyaAlberto_RoncancioBrayan/Lab5 -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Lab5/threaddatos.h -o moc_threaddatos.cpp
+
+compiler_moc_source_make_all:
+compiler_moc_source_clean:
+compiler_uic_make_all: ui_banco_gui.h
+compiler_uic_clean:
+	-$(DEL_FILE) ui_banco_gui.h
+ui_banco_gui.h: ../Lab5/banco_gui.ui \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/uic
+	/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/uic ../Lab5/banco_gui.ui -o ui_banco_gui.h
+
+compiler_yacc_decl_make_all:
+compiler_yacc_decl_clean:
+compiler_yacc_impl_make_all:
+compiler_yacc_impl_clean:
+compiler_lex_make_all:
+compiler_lex_clean:
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+
+####### Compile
 
 banco_gui.o: ../Lab5/banco_gui.cpp ../Lab5/banco_gui.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
@@ -1010,20 +1466,939 @@ banco_gui.o: ../Lab5/banco_gui.cpp ../Lab5/banco_gui.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		ui_banco_gui.h
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPixmap \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCore \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcollator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qendian.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qexception.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QStringList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qisenum.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocess.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qqueue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresource.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsettings.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstack.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QScopedPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthread.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/quuid.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGui \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGuiDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrawfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessible.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessiblebridge.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbackingstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QEvent \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QMargins \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QRect \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbitmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qclipboard.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdesktopservices.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdrag.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericpluginfactory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengineplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimageiohandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagereader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagewriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix4x4.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector3d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector4d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qquaternion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmovie.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qoffscreensurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qt_windows.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengles2ext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglcontext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QSurfaceFormat \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengldebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglextrafunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltexture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltextureblitter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix3x3 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix4x4 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltimerquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDeviceWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevicewindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDevice \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QOpenGLContext \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QImage \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagedpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagelayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagesize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpdfwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpicture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpictureformatplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmapcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrasterwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qscreen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSize \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSizeF \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QTransform \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsessionmanager.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstatictext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstylehints.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsyntaxhighlighter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentfragment.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtexttable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
+		../Lab5/operation_bank.h \
+		ui_banco_gui.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qaction.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qslider.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QStatusBar \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QToolBar \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtoolbar.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		../Lab5/threaddatos.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o banco_gui.o ../Lab5/banco_gui.cpp
 
-cliente.o: ../Lab5/cliente.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cliente.o ../Lab5/cliente.cpp
+main.o: ../Lab5/main.cpp /home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		../Lab5/banco_gui.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPixmap \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCore \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcollator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qendian.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qexception.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QStringList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qisenum.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocess.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qqueue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresource.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsettings.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstack.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QScopedPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthread.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/quuid.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGui \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGuiDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrawfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessible.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessiblebridge.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbackingstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QEvent \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QMargins \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QRect \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbitmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qclipboard.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdesktopservices.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdrag.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericpluginfactory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengineplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimageiohandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagereader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagewriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix4x4.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector3d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector4d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qquaternion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmovie.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qoffscreensurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qt_windows.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengles2ext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglcontext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QSurfaceFormat \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengldebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglextrafunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltexture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltextureblitter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix3x3 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix4x4 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltimerquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDeviceWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevicewindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDevice \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QOpenGLContext \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QImage \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagedpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagelayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagesize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpdfwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpicture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpictureformatplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmapcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrasterwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qscreen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSize \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSizeF \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QTransform \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsessionmanager.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstatictext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstylehints.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsyntaxhighlighter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentfragment.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtexttable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
+		../Lab5/operation_bank.h \
+		../Lab5/threaddatos.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Lab5/main.cpp
+
+operation_bank.o: ../Lab5/operation_bank.cpp ../Lab5/operation_bank.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o operation_bank.o ../Lab5/operation_bank.cpp
+
+threaddatos.o: ../Lab5/threaddatos.cpp ../Lab5/threaddatos.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../Lab5/banco_gui.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPixmap \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCore \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QtCoreDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventloop.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydataops.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasictimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbitarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcollator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatetime.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdiriterator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qendian.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qeventtransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qexception.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfileselector.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QStringList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfinalstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrunnable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresultstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhistorystate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qisenum.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonarray.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsondocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qjsonobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibrary.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversionnumber.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlockfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmath.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetaobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedata.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmimetype.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpluginloader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocess.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qqueue.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qresource.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsavefile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsettings.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstack.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstate.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstatemachine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QScopedPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextcodec.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthread.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadpool.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimeline.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimezone.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtranslator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypetraits.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/quuid.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qxmlstream.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGui \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QtGuiDepends \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrawfont.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessible.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessiblebridge.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qaccessibleplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbackingstore.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QEvent \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QMargins \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QRect \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbitmap.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qclipboard.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdesktopservices.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qdrag.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericmatrix.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qgenericpluginfactory.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qiconengineplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimageiohandler.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagereader.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimagewriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix4x4.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector3d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector4d.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qquaternion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmovie.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qoffscreensurface.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengl.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qt_windows.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengles2ext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglbuffer.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglcontext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QSurfaceFormat \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengldebug.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglextrafunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglfunctions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltexture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltextureblitter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix3x3 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMatrix4x4 \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopengltimerquery.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qopenglwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDeviceWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevicewindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QWindow \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QPaintDevice \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QOpenGLContext \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QImage \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagedpaintdevice.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagelayout.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpagesize.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintengine.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpdfwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpicture.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpictureformatplugin.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmapcache.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrasterwindow.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qscreen.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QList \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSize \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSizeF \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/QTransform \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsessionmanager.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstatictext.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qstylehints.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qsyntaxhighlighter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextobject.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentfragment.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextdocumentwriter.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextlist.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtexttable.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvalidator.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiversion.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
+		../Lab5/operation_bank.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o threaddatos.o ../Lab5/threaddatos.cpp
+
+qrc_resources.o: qrc_resources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
 moc_banco_gui.o: moc_banco_gui.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_banco_gui.o moc_banco_gui.cpp
 
+moc_threaddatos.o: moc_threaddatos.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_threaddatos.o moc_threaddatos.cpp
+
 ####### Install
 
-install:  FORCE
+install_target: first FORCE
+	@test -d $(INSTALL_ROOT)/opt/Lab5/bin || mkdir -p $(INSTALL_ROOT)/opt/Lab5/bin
+	-$(QINSTALL_PROGRAM) $(QMAKE_TARGET) $(INSTALL_ROOT)/opt/Lab5/bin/$(QMAKE_TARGET)
 
-uninstall:  FORCE
+uninstall_target: FORCE
+	-$(DEL_FILE) $(INSTALL_ROOT)/opt/Lab5/bin/$(QMAKE_TARGET)
+	-$(DEL_DIR) $(INSTALL_ROOT)/opt/Lab5/bin/ 
+
+
+install: install_target  FORCE
+
+uninstall: uninstall_target  FORCE
 
 FORCE:
 

@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
@@ -25,25 +26,30 @@ QT_BEGIN_NAMESPACE
 class Ui_banco_gui
 {
 public:
+    QWidget *centralWidget;
+    QLabel *Krank_label;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
-    QWidget *centralWidget;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *banco_gui)
     {
         if (banco_gui->objectName().isEmpty())
             banco_gui->setObjectName(QStringLiteral("banco_gui"));
-        banco_gui->resize(400, 300);
+        banco_gui->resize(481, 375);
+        centralWidget = new QWidget(banco_gui);
+        centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        Krank_label = new QLabel(centralWidget);
+        Krank_label->setObjectName(QStringLiteral("Krank_label"));
+        Krank_label->setGeometry(QRect(30, 20, 191, 141));
+        banco_gui->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(banco_gui);
         menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 481, 22));
         banco_gui->setMenuBar(menuBar);
         mainToolBar = new QToolBar(banco_gui);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        banco_gui->addToolBar(mainToolBar);
-        centralWidget = new QWidget(banco_gui);
-        centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        banco_gui->setCentralWidget(centralWidget);
+        banco_gui->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(banco_gui);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         banco_gui->setStatusBar(statusBar);
@@ -56,6 +62,7 @@ public:
     void retranslateUi(QMainWindow *banco_gui)
     {
         banco_gui->setWindowTitle(QApplication::translate("banco_gui", "banco_gui", Q_NULLPTR));
+        Krank_label->setText(QString());
     } // retranslateUi
 
 };

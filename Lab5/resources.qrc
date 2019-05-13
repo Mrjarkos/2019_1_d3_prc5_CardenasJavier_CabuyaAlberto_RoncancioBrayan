@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>Bank_Logo.png</file>
+        <file>Cajero.jpg</file>
+        <file>Client_Logo.png</file>
+        <file>Kranks-Bank.png</file>
+    </qresource>
+</RCC>
