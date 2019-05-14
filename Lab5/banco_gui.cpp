@@ -2,6 +2,7 @@
 #include "ui_banco_gui.h"
 #include "operation_bank.h"
 #include "threaddatos.h"
+#include <iostream>
 
 banco_gui::banco_gui(QWidget *parent) :
     QMainWindow(parent),
@@ -9,7 +10,7 @@ banco_gui::banco_gui(QWidget *parent) :
 {
     ui->setupUi(this);
     //signal(SIGINT,sigint);
-    N_Cajeros = 10;
+    N_Cajeros = 2;
     Bank = new Operation_Bank(N_Cajeros);
     if(Bank->Crear_Memoria_Compartida()){
         QMessageBox::information(this, "Error", "Banco ya abierto");
@@ -25,7 +26,6 @@ banco_gui::banco_gui(QWidget *parent) :
     });
     Bank->R_Mem();
     Bank->A_Cli();
-
 }
 
 banco_gui::~banco_gui()
@@ -43,8 +43,7 @@ void banco_gui::configurar_interfaz(int N_Cajeros){
     QPixmap kranklogo(":/Images/Kranks-Bank.png");
     QPixmap Cajeros(":/Images/Cajero.jpg");
     QLabel *Cajero_label[N_Cajeros];
-    QLabel *Cajero_label_Estado[N_Cajeros];
-
+    QLabel *Estado_Cajero_label[N_Cajeros];
 
     if(N_Cajeros>5){
         Col2 = N_Cajeros-5;
@@ -99,7 +98,7 @@ void banco_gui::configurar_interfaz(int N_Cajeros){
     static_Text[3]->setText("Clientes en Espera:");
 
     for(int i=4; i<8; i++){
-       static_Text[i]->setGeometry((W_Screen*3)/4+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*(i+1), W_Screen/3-Margin_X*2, 20);
+       static_Text[i]->setGeometry((W_Screen*3)/4+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*(i+2), W_Screen/3-Margin_X*2, 20);
     }
 
     static_Text[4]->setText("Cajeros Abiertos = ");
@@ -119,21 +118,29 @@ void banco_gui::configurar_interfaz(int N_Cajeros){
     label_out->setGeometry((W_Screen*9)/10+Margin_X, Margin_Y+(H_Screen/32)*3, W_Screen/3-Margin_X*2, 20);
     label_out->setFont(font_Static);
 
+    ui->BufferClient_Widget->setGeometry((W_Screen*6)/8+Margin_X, Margin_Y+(H_Screen/32)*5,(W_Screen*3)/14, 250);
+
     label_cajeros_abiertos = new QLabel(this);
-    label_cajeros_abiertos->setGeometry((W_Screen*9)/10+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*5, W_Screen/3-Margin_X*2, 20);
+    label_cajeros_abiertos->setGeometry((W_Screen*9)/10+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*6, W_Screen/3-Margin_X*2, 20);
     label_cajeros_abiertos->setFont(font_Static);
 
     label_cajeros_libres = new QLabel(this);
-    label_cajeros_libres->setGeometry((W_Screen*9)/10+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*6, W_Screen/3-Margin_X*2, 20);
+    label_cajeros_libres->setGeometry((W_Screen*9)/10+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*7, W_Screen/3-Margin_X*2, 20);
     label_cajeros_libres->setFont(font_Static);
 
     label_cajeros_ocupados  = new QLabel(this);
-    label_cajeros_ocupados->setGeometry((W_Screen*9)/10+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*7, W_Screen/3-Margin_X*2, 20);
+    label_cajeros_ocupados->setGeometry((W_Screen*9)/10+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*8, W_Screen/3-Margin_X*2, 20);
     label_cajeros_ocupados->setFont(font_Static);
+
+    ui->BufferCajeros_Widget->setGeometry((W_Screen*6)/8+Margin_X, (H_Screen/3)+Margin_Y+(H_Screen/32)*10, (W_Screen*3)/14, 250);
+    cajero_clientes = Bank->cajero_clientes;
 }
 
 void banco_gui::Actualizar_Datos(){
     //Actualizar datos
+
+    ui->BufferClient_Widget->clear();
+    ui->BufferCajeros_Widget->clear();
     in = Bank->in;
     out = Bank->out;
     freecash = Bank->freecash;
@@ -144,7 +151,24 @@ void banco_gui::Actualizar_Datos(){
     label_cajeros_abiertos->setText(QString::number(N_Cajeros));
     label_cajeros_libres->setText(QString::number(freecash));
     label_cajeros_ocupados->setText(QString::number(N_Cajeros - freecash));
-    sleep(1);
+    buffer_clientes = Bank->buffer_clientes;
+    //ui->BufferClient_Widget->reset();
+    char* cadena = new char[150];
+    for(int i = out; i<in; i=(i+1)%BUFFER_SIZE){
+        sprintf(cadena, "[%i] Nombre = %s, Id = %s", i-out+1, buffer_clientes[i].name_client, buffer_clientes[i].id_client);
+        ui->BufferClient_Widget->addItem(cadena);
+    }
+
+     cajero_clientes = Bank->cajero_clientes;
+     for(int i = 0; i<N_Cajeros; i++){
+         if(cajero_clientes[i].pid_client!=NULL){
+           sprintf(cadena, "[%i] Nombre = %s, Id = %s", i+1, cajero_clientes[i].name_client, cajero_clientes[i].id_client);
+         }else{
+           sprintf(cadena, "[%i] Cajero Disponible", i+1);
+         }
+         ui->BufferCajeros_Widget->addItem(cadena);
+     }
+  // usleep(1000*100);
 }
 
 void banco_gui::Ingresar_clientes(){

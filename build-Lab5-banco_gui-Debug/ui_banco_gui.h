@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
@@ -28,6 +29,8 @@ class Ui_banco_gui
 public:
     QWidget *centralWidget;
     QLabel *Krank_label;
+    QListWidget *BufferClient_Widget;
+    QListWidget *BufferCajeros_Widget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -42,6 +45,12 @@ public:
         Krank_label = new QLabel(centralWidget);
         Krank_label->setObjectName(QStringLiteral("Krank_label"));
         Krank_label->setGeometry(QRect(30, 20, 191, 141));
+        BufferClient_Widget = new QListWidget(centralWidget);
+        BufferClient_Widget->setObjectName(QStringLiteral("BufferClient_Widget"));
+        BufferClient_Widget->setGeometry(QRect(290, -10, 181, 192));
+        BufferCajeros_Widget = new QListWidget(centralWidget);
+        BufferCajeros_Widget->setObjectName(QStringLiteral("BufferCajeros_Widget"));
+        BufferCajeros_Widget->setGeometry(QRect(270, 190, 256, 192));
         banco_gui->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(banco_gui);
         menuBar->setObjectName(QStringLiteral("menuBar"));

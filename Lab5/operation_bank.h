@@ -32,13 +32,13 @@ typedef struct{
     pid_t pid_client;
 }client;
 
-typedef struct {
-    int id;
-    bool* status;
-    pid_t pid_client;
-    char name_client[81];
-    char id_client[81];
-} arg_thread;
+//typedef struct {
+//    int id;
+//    bool* status;
+//    pid_t pid_client;
+//    char name_client[81];
+//    char id_client[81];
+//} arg_thread;
 
 class Operation_Bank
 {
@@ -63,6 +63,7 @@ public:
     bool* hilo_estado; //false = disponible
     volatile int in, out, clientes_banco;
     client* buffer_clientes;
+    client* cajero_clientes;
 
     Operation_Bank();
     Operation_Bank(int N_Cajeros);
@@ -84,11 +85,12 @@ private:
     const char *name_semMem = "/smp_MemoriaCompartida";
     const char *name_semCajero = "/smp_Cajero";
     const char *mem_name="SHMEM_BANK";
+
     pthread_t atender, ingreso;
     //pthread_t *Cajeros_h;
    // pthread_attr_t *attr;
     //arg_thread data[10];
-    arg_thread data[10];
+    //arg_thread data[10];
 
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 

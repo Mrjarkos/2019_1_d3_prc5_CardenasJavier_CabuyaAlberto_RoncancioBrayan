@@ -10,7 +10,7 @@
 #include "operation_bank.h"
 
 
-#define H_Screen 720//563
+#define H_Screen 800//563
 #define W_Screen 1300//1000
 
 #define Margin_X 20
@@ -38,15 +38,17 @@ public:
 private:
     Ui::banco_gui *ui;
     int freecash;
-    bool* hilo_estado; //false = disponible
+
     volatile int in, out, clientes_banco;
     client* buffer_clientes;
+    client* cajero_clientes;
     QLabel* label_buffer;
     QLabel* label_in;
     QLabel* label_out;
     QLabel* label_cajeros_abiertos;
     QLabel* label_cajeros_libres;
     QLabel* label_cajeros_ocupados;
+    //QLabel* Cajero_label_Estado[N_Cajeros];
     Operation_Bank* Bank;
     ThreadDatos* Datos;
     void sigint(int a);

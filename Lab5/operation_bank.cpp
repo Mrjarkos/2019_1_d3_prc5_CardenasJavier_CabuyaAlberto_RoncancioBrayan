@@ -18,12 +18,14 @@ Operation_Bank::~Operation_Bank()
 }
 
 Operation_Bank::Operation_Bank(int N_Cajeros){
-
+    printf("inicializando variables\n");
+    this->N_Cajeros = N_Cajeros;
     buffer_clientes = new client[BUFFER_SIZE]; //Como el banco es pequeño, solo pueden haber BUFFER_SIZE personas maximo
+    cajero_clientes = new client[N_Cajeros];
     in = 0;
     out = 0;
     clientes_banco=0;
-    freecash=N_Cajeros;
+    freecash = N_Cajeros;
     size = sizeof(mem);
     hilo = 0;
     //pthread_create(&ingreso, NULL, Ingreso_Clientes, NULL);
@@ -35,6 +37,7 @@ Operation_Bank::Operation_Bank(int N_Cajeros){
     for (int i = 0; i < N_Cajeros; ++i)
     {
         hilo_estado[i] = false;
+        cajero_clientes[i].pid_client=0;
     }
     //pthread_create(&ingreso, NULL, Ingreso_Clientes, NULL);
 }
@@ -64,7 +67,7 @@ void Operation_Bank::Ingreso_Clientes(){
     while (1) {
         //printf("\n[I] Ingreso de Clientes \n");
         ptr = mmap(0, size, PROT_READ, MAP_SHARED, shm_fd, 0);
-        //printf("[I] Esperando a que un cliente llegue...\n");
+        printf("[I] Esperando a que un cliente llegue...\n");
             do{
                 memoria = (mem*)ptr;
             }while(memoria->subscription_flag==(unsigned char)0);
@@ -101,16 +104,17 @@ void Operation_Bank::Ingreso_Clientes(){
 void Operation_Bank::Asignar_Turno(){
         pthread_t Cajeros_h[N_Cajeros];
         pthread_attr_t attr[N_Cajeros];
-        data;
 
     while(1){
           sem_getvalue(cajero, &freecash);
 
           if(in == out){
-              while(in == out); //Cajeros Libres, Esperando a que un cliente llegue...
+              printf("[A] Cajeros Libres, Esperando a que un cliente llegue...\n");
+              while(in == out);
           }
 
           if(freecash==0){
+              printf("[A] Cajero lleno, Esperando a que un cliente termine...\n");
               while(freecash==0){ //Cajero lleno, Esperando a que un cliente termine...\n");
               sem_getvalue(cajero, &freecash);
               }
@@ -118,13 +122,14 @@ void Operation_Bank::Asignar_Turno(){
           for (int i = 0; i < N_Cajeros; ++i)
           {
               if(!hilo_estado[i]){
+                  pthread_mutex_lock(&mutex);
                   hilo_estado[i]= true;
+                  printf("[%i] Entro al hilo\n", i);
                   hilo = i;
-                  data[i].id = i;
-                  data[i].status = &hilo_estado[i];
-                  data[i].pid_client = buffer_clientes[out].pid_client;
-                  strcpy(data[i].name_client, buffer_clientes[out].name_client);
-                  strcpy(data[i].id_client, buffer_clientes[out].id_client);
+                  cajero_clientes[i].pid_client = buffer_clientes[out].pid_client;
+                  strcpy(cajero_clientes[i].name_client, buffer_clientes[out].name_client);
+                  strcpy(cajero_clientes[i].id_client, buffer_clientes[out].id_client);
+                  pthread_mutex_unlock(&mutex);
                   pthread_attr_init(&attr[i]);
                   pthread_create(&Cajeros_h[i], &attr[i], Atender_Al_Cliente, this);
               break;
@@ -136,18 +141,24 @@ void Operation_Bank::Asignar_Turno(){
 
 void* Operation_Bank::Atender_Clientes(){
 
-        pthread_mutex_lock(&mutex);
-        void *a = &data[hilo];
+        int i = 0;
+        client* myclient = new client;
         char statFileName[128];
-        volatile char state;
         FILE *fd;
-        arg_thread *mydata = (arg_thread*)a;
-        out = (out + 1) % BUFFER_SIZE;
+
+        pthread_mutex_lock(&mutex);
+        i = hilo;
+        printf("[%i] Entro al hilo\n", i);
+        myclient->pid_client = cajero_clientes[i].pid_client;
+        strcpy(myclient->name_client, cajero_clientes[i].name_client);
+        strcpy(myclient->id_client, cajero_clientes[i].id_client);
+        this->out = (this->out + 1) % BUFFER_SIZE;
+       // printf("[A] Liberar out; out = %i\n", out);
         clientes_banco--;
         pthread_mutex_unlock(&mutex);
 
-        sprintf(statFileName, "/proc/%d/stat", mydata->pid_client);
-        printf("[%i] Esperando a que el cliente termine....\n", mydata->id);
+        sprintf(statFileName, "/proc/%d/stat", myclient->pid_client);
+        printf("[%i] Esperando a que el cliente termine....\n", i);
         do{
             //pthread_mutex_lock(&mutex_archivo);
             fd = fopen(statFileName, "r");
@@ -157,9 +168,15 @@ void* Operation_Bank::Atender_Clientes(){
             //pthread_mutex_unlock(&mutex_archivo);
         }while(fd!=NULL);
 
-        //printf("[%i] Cliente Atendido\n", mydata->id);
-        *(mydata->status) = false;
-        pthread_exit(a);
+        printf("[%i] Cliente Atendido\n", i);
+        pthread_mutex_lock(&mutex);
+        cajero_clientes[i].pid_client = NULL;
+        hilo_estado[i] = false;
+        pthread_mutex_unlock(&mutex);
+        sem_getvalue(cajero, &freecash);
+
+        pthread_exit(NULL);
+
 }
 
 
