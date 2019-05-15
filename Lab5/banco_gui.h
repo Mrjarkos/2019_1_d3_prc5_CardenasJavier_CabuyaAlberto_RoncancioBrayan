@@ -34,6 +34,8 @@ public:
     void Ingresar_clientes();
     int N_Cajeros;
     const char* Bank_name = "Kranks Bank!";
+    QLabel* Cajero_label_Estado[10];
+    QLabel* Cliente_label_Estado[10];
 
 private:
     Ui::banco_gui *ui;
@@ -51,6 +53,7 @@ private:
     //QLabel* Cajero_label_Estado[N_Cajeros];
     Operation_Bank* Bank;
     ThreadDatos* Datos;
+
     void sigint(int a);
 
 };

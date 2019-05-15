@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 	void* ptr;
 	mem* memoria;
 	char name_client[81], id_client[81];
+    srand (time(NULL));
 
     if(argc==3){
         if(strlen(argv[1])>80){

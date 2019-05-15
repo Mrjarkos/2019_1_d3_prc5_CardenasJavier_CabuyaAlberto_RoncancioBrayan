@@ -69,10 +69,9 @@ public:
     Operation_Bank(int N_Cajeros);
     ~Operation_Bank();
    bool Crear_Memoria_Compartida();
+  //void Ingreso_Clientes();
    void R_Mem();
    void A_Cli();
-
-
 
 private:
 

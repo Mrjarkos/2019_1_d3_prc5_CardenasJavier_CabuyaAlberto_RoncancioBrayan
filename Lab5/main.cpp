@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
   int r = a.exec();
 
   //std::cout << "HOLA" << std::endl;
-  //delete interfaz;
+  delete interfaz;
   return r;
 
 }

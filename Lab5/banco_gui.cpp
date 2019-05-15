@@ -10,7 +10,7 @@ banco_gui::banco_gui(QWidget *parent) :
 {
     ui->setupUi(this);
     //signal(SIGINT,sigint);
-    N_Cajeros = 2;
+    N_Cajeros = 10;
     Bank = new Operation_Bank(N_Cajeros);
     if(Bank->Crear_Memoria_Compartida()){
         QMessageBox::information(this, "Error", "Banco ya abierto");
@@ -26,6 +26,7 @@ banco_gui::banco_gui(QWidget *parent) :
     });
     Bank->R_Mem();
     Bank->A_Cli();
+    //Bank->Ingreso_Clientes();
 }
 
 banco_gui::~banco_gui()
@@ -40,19 +41,22 @@ void banco_gui::sigint(int a){
 
 void banco_gui::configurar_interfaz(int N_Cajeros){
     int Col2=0;
-    QPixmap kranklogo(":/Images/Kranks-Bank.png");
-    QPixmap Cajeros(":/Images/Cajero.jpg");
-    QLabel *Cajero_label[N_Cajeros];
-    QLabel *Estado_Cajero_label[N_Cajeros];
 
-    if(N_Cajeros>5){
-        Col2 = N_Cajeros-5;
-        N_Cajeros=5;
-    }
+    QPixmap kranklogo(":/Images/Kranks-Bank.png");
+    QPixmap Cajeros(":/Images/Cajero.png");
+    QPixmap Cliente_Icono(":/Images/Client_Logo.png");
+
+    QLabel* Cajero_label[N_Cajeros];
+
+   // if(N_Cajeros>5){
+     //   Col2 = N_Cajeros-5;
+       // N_Cajeros=5;
+    //}
 
     int cajero_h = H_Screen/3-2*Margin_Y;
     int cajero_w = (W_Screen*2)/(3*5)-2*Margin_X; //W_Screen*(2/3)*(1/5)-Margin_X;
-    int cajero_x = ((W_Screen*2)/3-cajero_w*N_Cajeros)/2;
+    int div = N_Cajeros>5?5: N_Cajeros;
+    int cajero_x = ((W_Screen*2)/3-cajero_w*div)/2;
     int cajero_y = ((H_Screen*2)/3-cajero_h*5)/2;
     int krank_label_w = (W_Screen*2)/(3*3)-2*Margin_X;// W_Screen*(2/3)*(1/3)-2*Margin_X;
     int krank_label_h = H_Screen/3-2*Margin_Y;
@@ -68,24 +72,52 @@ void banco_gui::configurar_interfaz(int N_Cajeros){
     Nombre->setText(Bank_name);
     QFont font("Impact", 60);
     Nombre->setFont(font);
-
+    int x;
     for(int i=0; i<N_Cajeros; i++){
         Cajero_label[i] = new QLabel(this);
-        Cajero_label[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+(H_Screen*2)/3-Margin_Y, cajero_w, cajero_h);
+        Cliente_label_Estado[i] = new QLabel(this);
+        Cajero_label_Estado[i] = new QLabel(this);
+
+        if(i<5){
+            Col2 = 2;
+            x=i;
+        }else{
+            Col2 = 3;
+            x = 9-i;
+        }
+
+        Cajero_label[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*x, cajero_y+(H_Screen*Col2)/3-Margin_Y, cajero_w, cajero_h);
+        Cliente_label_Estado[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*x, cajero_y+(H_Screen*Col2)/3+(3*Margin_Y)/2, (cajero_w*2)/3, (cajero_h*2)/3);
+        Cajero_label_Estado[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*x, cajero_y+(H_Screen*Col2)/3-(cajero_h*2)/3-Margin_Y, cajero_w, cajero_h);
+
+        Cajero_label_Estado[i]->setText("\nDisponible");
+        Cajero_label_Estado[i]->setAlignment(Qt::AlignCenter);
         Cajero_label[i]->setPixmap(Cajeros.scaled(cajero_w, cajero_h, Qt::KeepAspectRatio));
+        Cliente_label_Estado[i]->setPixmap(Cliente_Icono.scaled((cajero_w*2)/3, (cajero_h*2)/3, Qt::KeepAspectRatio));
     }
 
-    N_Cajeros = Col2;
+    //N_Cajeros = Col2;
     cajero_x = ((W_Screen*2)/3-cajero_w*N_Cajeros)/2;
 
-    for(int i=0; i<N_Cajeros; i++){
-        Cajero_label[i] = new QLabel(this);
-        Cajero_label[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen, cajero_w, cajero_h);
-        Cajero_label[i]->setPixmap(Cajeros.scaled(cajero_w, cajero_h, Qt::KeepAspectRatio));
-    }
+  //  for(int i=0; i<N_Cajeros; i++){
+  //      Cajero_label[i] = new QLabel(this);
+   //     Cajero_label_Estado[i] = new QLabel(this);
+   //     Cliente_label_Estado[i] = new QLabel(this);
+
+   //     Cajero_label[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen, cajero_w, cajero_h);
+   //     Cliente_label_Estado[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen+(3*Margin_Y)/2, (cajero_w*2)/3, (cajero_h*2)/3);
+
+   //     Cajero_label[i]->setPixmap(Cajeros.scaled(cajero_w, cajero_h, Qt::KeepAspectRatio));
+   //     Cliente_label_Estado[i]->setPixmap(Cliente_Icono.scaled((cajero_w*2)/3, (cajero_h*2)/3, Qt::KeepAspectRatio));
+
+   //     Cajero_label_Estado[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen-(cajero_h*2)/3, cajero_w, cajero_h);
+   //     Cajero_label_Estado[i]->setText("\nDisponible");
+  // //     Cajero_label_Estado[i]->setAlignment(Qt::AlignCenter);
+  //  }
 
     QLabel *static_Text[8];
     QFont font_Static("Arial", 14);
+
     for(int i=0; i<8; i++){
        static_Text[i] = new QLabel(this);
        static_Text[i]->setGeometry((W_Screen*3)/4+Margin_X, Margin_Y+(H_Screen/32)*(i+1), W_Screen/3-Margin_X*2, 20);
@@ -159,14 +191,19 @@ void banco_gui::Actualizar_Datos(){
         ui->BufferClient_Widget->addItem(cadena);
     }
 
+     char* estado = new char[150];
+
      cajero_clientes = Bank->cajero_clientes;
      for(int i = 0; i<N_Cajeros; i++){
          if(cajero_clientes[i].pid_client!=NULL){
            sprintf(cadena, "[%i] Nombre = %s, Id = %s", i+1, cajero_clientes[i].name_client, cajero_clientes[i].id_client);
+           sprintf(estado, "%s\n%s", cajero_clientes[i].name_client, cajero_clientes[i].id_client);
          }else{
            sprintf(cadena, "[%i] Cajero Disponible", i+1);
+           sprintf(estado, "\nDisponible");
          }
          ui->BufferCajeros_Widget->addItem(cadena);
+         this->Cajero_label_Estado[i]->setText(estado);
      }
   // usleep(1000*100);
 }

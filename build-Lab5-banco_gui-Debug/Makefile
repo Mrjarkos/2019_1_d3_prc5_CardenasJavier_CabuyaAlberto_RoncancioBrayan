@@ -676,9 +676,9 @@ compiler_rcc_clean:
 qrc_resources.cpp: ../Lab5/resources.qrc \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/rcc \
 		../Lab5/Client_Logo.png \
-		../Lab5/Cajero.jpg \
 		../Lab5/Bank_Logo.png \
-		../Lab5/Kranks-Bank.png
+		../Lab5/Kranks-Bank.png \
+		../Lab5/Cajero.png
 	/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/bin/rcc -name resources ../Lab5/resources.qrc -o qrc_resources.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -1709,6 +1709,9 @@ banco_gui.o: ../Lab5/banco_gui.cpp ../Lab5/banco_gui.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QListWidget \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlistview.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMenuBar \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenubar.h \
 		/home/mrjarkos/gems/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmenu.h \
