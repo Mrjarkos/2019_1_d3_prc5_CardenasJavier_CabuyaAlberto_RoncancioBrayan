@@ -7,6 +7,7 @@ Un banco llamado Cranks Bank, presenta problema en su cede principal a la hora d
 - Comprender y aplicar el uso de semaforos en la sincronización.
 - Entender las ventajas de aplicarla sincronización en una solución.
 - Comprender importancia del uso de la memoria compartida para la comunicación entre diferentes procesos o programas.
+<img align="center" height="200px" src="https://github.com/Mrjarkos/2019_1_d3_prc5_CardenasJavier_CabuyaAlberto_RoncancioBrayan/blob/master/Sin%20t%C3%ADtulo.png>
 ## Procedimiento
 En primera instancia, para dar solución al problema se planteo dividir el problema en dos partes que estaran ligadas una a la otra; estara dividido en un proceso Cliente y otro Banco.
 * **Cliente**
