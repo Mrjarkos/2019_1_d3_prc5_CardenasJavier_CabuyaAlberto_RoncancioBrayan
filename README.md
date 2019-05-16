@@ -7,11 +7,11 @@ Un banco llamado Cranks Bank, presenta problema en su cede principal a la hora d
 - Comprender y aplicar el uso de semaforos en la sincronización.
 - Entender las ventajas de aplicarla sincronización en una solución.
 - Comprender importancia del uso de la memoria compartida para la comunicación entre diferentes procesos o programas.
-<img align="center" height="200px" src="https://github.com/Mrjarkos/2019_1_d3_prc5_CardenasJavier_CabuyaAlberto_RoncancioBrayan/blob/master/Sin%20t%C3%ADtulo.png>
-## Procedimiento
+
+## Procedimiento 
 En primera instancia, para dar solución al problema se planteo dividir el problema en dos partes que estaran ligadas una a la otra; estara dividido en un proceso Cliente y otro Banco.
 * **Cliente**
-    * Este proceso en primera instancia, pide al usuario o cliente el nombre seguido de su número de identificación; enseguida abre el semaforo que comunica el cliente con el banco, si dicho semaforo no existe, indica que el banco esta cerrado, por lo tanto, no se puede realizar ningun proceso; si el semaforo si existe, el cliente espera mientras el semaforo le da la indicación para poder acceder a la memoria compartida, en la cual se simulara el proceso de de atención por parte de un cajero a un usuario. El usuario escribe en memoria compartida un 0 indicando que desea ser atendido, cuando el banco cambia dicha bandera a 1 indica que ya esta en la lista de espera, entonces el se sale y espera un toquen o aviso de cual cajero esta libre; se simula durante un tiempo aleatorio que esta siendo atendido; y cuando este tiempo finaliza el cliente devuelve el toquen y libera el cajero.
+    * Este proceso en primera instancia, pide al usuario o cliente el nombre seguido de su número de identificación; enseguida abre el semaforo que comunica el cliente con el banco, si dicho semaforo no existe, indica que el banco esta cerrado, por lo tanto, no se puede realizar ningun proceso;  <img align="right" height="300px" src="https://github.com/Mrjarkos/2019_1_d3_prc5_CardenasJavier_CabuyaAlberto_RoncancioBrayan/blob/master/p.png"/> si el semaforo si existe, el cliente espera mientras el semaforo le da la indicación para poder acceder a la memoria compartida, en la cual se simulara el proceso de de atención por parte de un cajero a un usuario. El usuario escribe en memoria compartida un 0 indicando que desea ser atendido, cuando el banco cambia dicha bandera a 1 indica que ya esta en la lista de espera, entonces el se sale y espera un toquen o aviso de cual cajero esta libre; se simula durante un tiempo aleatorio que esta siendo atendido; y cuando este tiempo finaliza el cliente devuelve el toquen y libera el cajero.
 
 
 
