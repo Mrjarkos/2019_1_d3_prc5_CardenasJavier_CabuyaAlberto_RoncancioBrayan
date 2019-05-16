@@ -32,6 +32,7 @@ public:
     void configurar_interfaz(int N_Cajeros);
     void Actualizar_Datos();
     void Ingresar_clientes();
+    void inicializacion(int N_Caj);
     int N_Cajeros;
     const char* Bank_name = "Kranks Bank!";
     QLabel* Cajero_label_Estado[10];

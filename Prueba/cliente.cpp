@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	mem* memoria;
 	char name_client[81], id_client[81];
     srand (time(NULL));
-
+    sleep(rand()%3);
     if(argc==3){
         if(strlen(argv[1])>80){
         	printf("Nombre demasiado largo\n");
@@ -72,6 +72,8 @@ int main(int argc, char *argv[])
     sem_wait(cajero);
     printf("Turno Obtenido\n");
     printf("\nRealizando transacciones\n");
+    
+    //getchar();
     sleep(rand()%15+5);
     sem_post(cajero);
 

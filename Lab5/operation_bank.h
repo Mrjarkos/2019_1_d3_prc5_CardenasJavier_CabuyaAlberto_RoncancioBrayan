@@ -57,10 +57,17 @@ public:
         reinterpret_cast<Operation_Bank*>(object)->Atender_Clientes();
         return 0;
     }
+    static void* See_hilos(void* object){
+        reinterpret_cast<Operation_Bank*>(object)-> Mirar_hilos();
+        return 0;
+    }
+
+    void S_hilos();
+
 
     
     int freecash;
-    bool* hilo_estado; //false = disponible
+    bool hilo_estado[10]; //false = disponible
     volatile int in, out, clientes_banco;
     client* buffer_clientes;
     client* cajero_clientes;
@@ -72,6 +79,7 @@ public:
   //void Ingreso_Clientes();
    void R_Mem();
    void A_Cli();
+
 
 private:
 
@@ -85,7 +93,7 @@ private:
     const char *name_semCajero = "/smp_Cajero";
     const char *mem_name="SHMEM_BANK";
 
-    pthread_t atender, ingreso;
+    pthread_t atender, ingreso, see;
     //pthread_t *Cajeros_h;
    // pthread_attr_t *attr;
     //arg_thread data[10];
@@ -96,6 +104,7 @@ private:
     void Ingreso_Clientes();
     void Asignar_Turno();
     void* Atender_Clientes();
+    void Mirar_hilos();
    // static void* Leer_Memoria(void* object);
 };
 

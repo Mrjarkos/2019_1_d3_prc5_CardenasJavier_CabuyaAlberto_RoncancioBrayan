@@ -10,7 +10,21 @@ banco_gui::banco_gui(QWidget *parent) :
 {
     ui->setupUi(this);
     //signal(SIGINT,sigint);
-    N_Cajeros = 10;
+
+    //Bank->Ingreso_Clientes();
+}
+
+banco_gui::~banco_gui()
+{
+    delete Bank;
+    delete ui;
+}
+
+void banco_gui::sigint(int a){
+        delete this;
+    }
+void banco_gui::inicializacion(int N_Caj){
+    this->N_Cajeros = N_Caj;
     Bank = new Operation_Bank(N_Cajeros);
     if(Bank->Crear_Memoria_Compartida()){
         QMessageBox::information(this, "Error", "Banco ya abierto");
@@ -26,19 +40,8 @@ banco_gui::banco_gui(QWidget *parent) :
     });
     Bank->R_Mem();
     Bank->A_Cli();
-    //Bank->Ingreso_Clientes();
+    Bank->S_hilos();
 }
-
-banco_gui::~banco_gui()
-{
-    delete Bank;
-    delete ui;
-}
-
-void banco_gui::sigint(int a){
-        delete this;
-    }
-
 void banco_gui::configurar_interfaz(int N_Cajeros){
     int Col2=0;
 
@@ -96,24 +99,7 @@ void banco_gui::configurar_interfaz(int N_Cajeros){
         Cliente_label_Estado[i]->setPixmap(Cliente_Icono.scaled((cajero_w*2)/3, (cajero_h*2)/3, Qt::KeepAspectRatio));
     }
 
-    //N_Cajeros = Col2;
     cajero_x = ((W_Screen*2)/3-cajero_w*N_Cajeros)/2;
-
-  //  for(int i=0; i<N_Cajeros; i++){
-  //      Cajero_label[i] = new QLabel(this);
-   //     Cajero_label_Estado[i] = new QLabel(this);
-   //     Cliente_label_Estado[i] = new QLabel(this);
-
-   //     Cajero_label[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen, cajero_w, cajero_h);
-   //     Cliente_label_Estado[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen+(3*Margin_Y)/2, (cajero_w*2)/3, (cajero_h*2)/3);
-
-   //     Cajero_label[i]->setPixmap(Cajeros.scaled(cajero_w, cajero_h, Qt::KeepAspectRatio));
-   //     Cliente_label_Estado[i]->setPixmap(Cliente_Icono.scaled((cajero_w*2)/3, (cajero_h*2)/3, Qt::KeepAspectRatio));
-
-   //     Cajero_label_Estado[i]->setGeometry(cajero_x+(cajero_w+cajero_x/2)*i, cajero_y+H_Screen-(cajero_h*2)/3, cajero_w, cajero_h);
-   //     Cajero_label_Estado[i]->setText("\nDisponible");
-  // //     Cajero_label_Estado[i]->setAlignment(Qt::AlignCenter);
-  //  }
 
     QLabel *static_Text[8];
     QFont font_Static("Arial", 14);
@@ -169,7 +155,6 @@ void banco_gui::configurar_interfaz(int N_Cajeros){
 }
 
 void banco_gui::Actualizar_Datos(){
-    //Actualizar datos
 
     ui->BufferClient_Widget->clear();
     ui->BufferCajeros_Widget->clear();
@@ -184,7 +169,7 @@ void banco_gui::Actualizar_Datos(){
     label_cajeros_libres->setText(QString::number(freecash));
     label_cajeros_ocupados->setText(QString::number(N_Cajeros - freecash));
     buffer_clientes = Bank->buffer_clientes;
-    //ui->BufferClient_Widget->reset();
+
     char* cadena = new char[150];
     for(int i = out; i<in; i=(i+1)%BUFFER_SIZE){
         sprintf(cadena, "[%i] Nombre = %s, Id = %s", i-out+1, buffer_clientes[i].name_client, buffer_clientes[i].id_client);
@@ -198,16 +183,13 @@ void banco_gui::Actualizar_Datos(){
          if(cajero_clientes[i].pid_client!=NULL){
            sprintf(cadena, "[%i] Nombre = %s, Id = %s", i+1, cajero_clientes[i].name_client, cajero_clientes[i].id_client);
            sprintf(estado, "%s\n%s", cajero_clientes[i].name_client, cajero_clientes[i].id_client);
+           Cliente_label_Estado[i]->show();
          }else{
            sprintf(cadena, "[%i] Cajero Disponible", i+1);
            sprintf(estado, "\nDisponible");
+           Cliente_label_Estado[i]->hide();
          }
          ui->BufferCajeros_Widget->addItem(cadena);
          this->Cajero_label_Estado[i]->setText(estado);
      }
-  // usleep(1000*100);
-}
-
-void banco_gui::Ingresar_clientes(){
-
 }

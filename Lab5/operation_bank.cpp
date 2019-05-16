@@ -32,7 +32,7 @@ Operation_Bank::Operation_Bank(int N_Cajeros){
     sharedmem = sem_open(name_semMem, O_CREAT|O_EXCL, 0644, 1);
     cajero = sem_open(name_semCajero, O_CREAT|O_EXCL, 0644, N_Cajeros);
 
-    hilo_estado = new bool[N_Cajeros];
+    //hilo_estado = new bool[N_Cajeros];
 
     for (int i = 0; i < N_Cajeros; ++i)
     {
@@ -61,6 +61,26 @@ void Operation_Bank::R_Mem(){
 
 void Operation_Bank::A_Cli(){
     pthread_create(&atender, NULL, &Operation_Bank::Atend_Client, this);
+}
+
+void Operation_Bank::S_hilos(){
+    pthread_create(&see, NULL, &Operation_Bank::See_hilos, this);
+}
+
+void Operation_Bank::Mirar_hilos(){
+    while(1){
+       // while(freecash==0);
+       // while(freecash!=0);
+        pthread_mutex_lock(&mutex);
+            for(int j=0; j<N_Cajeros; j++){
+                if(cajero_clientes[j].pid_client != NULL){
+                    if(!hilo_estado[j]){
+                        cajero_clientes[j].pid_client = NULL;
+                    }
+                }
+            }
+         pthread_mutex_unlock(&mutex);
+    }
 }
 
 void Operation_Bank::Ingreso_Clientes(){
@@ -104,7 +124,7 @@ void Operation_Bank::Ingreso_Clientes(){
 void Operation_Bank::Asignar_Turno(){
         pthread_t Cajeros_h[N_Cajeros];
         pthread_attr_t attr[N_Cajeros];
-
+        bool estado;
     while(1){
           sem_getvalue(cajero, &freecash);
 
@@ -119,9 +139,16 @@ void Operation_Bank::Asignar_Turno(){
               sem_getvalue(cajero, &freecash);
               }
           }
+         // usleep(1000*1000);
+
           for (int i = 0; i < N_Cajeros; ++i)
           {
-              if(!hilo_estado[i]){
+              usleep(1000*200);
+              pthread_mutex_lock(&mutex);
+              estado = hilo_estado[i];
+              pthread_mutex_unlock(&mutex);
+
+              if(!estado){
                   pthread_mutex_lock(&mutex);
                   hilo_estado[i]= true;
                   printf("[%i] Entro al hilo\n", i);
@@ -135,7 +162,7 @@ void Operation_Bank::Asignar_Turno(){
               break;
               }
           }
-          sleep(1);
+         usleep(1000*500);
       }
 }
 
@@ -145,8 +172,8 @@ void* Operation_Bank::Atender_Clientes(){
         client* myclient = new client;
         char statFileName[128];
         FILE *fd;
-
         pthread_mutex_lock(&mutex);
+        sem_getvalue(cajero, &freecash);
         i = hilo;
         printf("[%i] Entro al hilo\n", i);
         myclient->pid_client = cajero_clientes[i].pid_client;
@@ -160,21 +187,13 @@ void* Operation_Bank::Atender_Clientes(){
         sprintf(statFileName, "/proc/%d/stat", myclient->pid_client);
         printf("[%i] Esperando a que el cliente termine....\n", i);
         do{
-            //pthread_mutex_lock(&mutex_archivo);
             fd = fopen(statFileName, "r");
             if (fd != NULL){
                 fclose(fd);
             }
-            //pthread_mutex_unlock(&mutex_archivo);
         }while(fd!=NULL);
-
-        printf("[%i] Cliente Atendido\n", i);
-        pthread_mutex_lock(&mutex);
-        cajero_clientes[i].pid_client = NULL;
         hilo_estado[i] = false;
-        pthread_mutex_unlock(&mutex);
         sem_getvalue(cajero, &freecash);
-
         pthread_exit(NULL);
 
 }
